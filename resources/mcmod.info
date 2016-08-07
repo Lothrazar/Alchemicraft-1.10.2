@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "alchemicraft",
+  "name": "Alchemicraft",
+  "description": "This is the complete rebuild of Alchemicraft from the ground up.  a new way of making them and using them",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "http://workshopcraft.com",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Workshopcraft"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

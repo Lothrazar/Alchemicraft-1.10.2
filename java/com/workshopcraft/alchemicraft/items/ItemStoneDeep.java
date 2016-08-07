@@ -6,11 +6,11 @@ import net.minecraftforge.common.config.Configuration;
 
 public class ItemStoneDeep extends ItemStone{
 
-	private RecipesDeep Recipes;
+	
 	
 	public ItemStoneDeep(String uname,Configuration config) {
 		super(uname);
-		Recipes = new RecipesDeep("deep",config);
+		RECIPES = new RecipesDeep("deep",config);
 	}
 
 }

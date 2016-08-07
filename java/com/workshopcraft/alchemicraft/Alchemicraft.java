@@ -1,11 +1,10 @@
 package com.workshopcraft.alchemicraft;
 
+import java.io.File;
+
 import com.workshopcraft.alchemicraft.items.ItemStoneDeep;
 import com.workshopcraft.alchemicraft.items.ItemStoneWild;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -16,16 +15,18 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = Alchemicraft.MODID, version = Alchemicraft.VERSION)
 public class Alchemicraft
 {
+	//#TeamEclipse
+	
     public static final String MODID = "alchemicraft";
     public static final String VERSION = "1.0";
     public Configuration config;	
     public static AlchemicraftTab AlchemiTab;
     //alchemical stones
-    
+    public static File CONFIGFILE;
     //stone of the wild
-    ItemStoneWild STONEWILD; 
+    public static ItemStoneWild STONEWILD; 
     //stone of the deep
-    ItemStoneDeep STONEDEEP; 
+    public static ItemStoneDeep STONEDEEP; 
     //stone of hell
     //stone of the end
     
@@ -56,6 +57,7 @@ public class Alchemicraft
     public void preinit(FMLPreInitializationEvent event)
     {
     	AlchemiTab = new AlchemicraftTab("tabAlchemicraft");
+    	CONFIGFILE = event.getSuggestedConfigurationFile();
     	config = new Configuration(event.getSuggestedConfigurationFile());
     	config.load();
     	//stones go here

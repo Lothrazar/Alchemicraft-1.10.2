@@ -13,6 +13,8 @@ public class RecipesWild extends Recipes{
 	@Override
 	public void PopulateListFromConfig(Configuration config)
 	{
-		getRecipeFromConfig(config,"minecraft:stone","minecraft:cobblestone",0,1);//stone -> cobble +1 ether
+		
+		getRecipeFromConfig(config,"minecraft:grass","minecraft:dirt",0,1);//grass -> dirt
+		getRecipeFromConfig(config,"minecraft:dirt","minecraft:grass",1,-2);//grass -> dirt
 	}
 }

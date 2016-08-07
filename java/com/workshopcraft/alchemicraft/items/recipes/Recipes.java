@@ -12,7 +12,7 @@ import net.minecraftforge.common.config.Configuration;
  */
 public class Recipes {
 	
-	List<AlchemicalRecipe> RecipeList = new ArrayList();
+	public List<AlchemicalRecipe> RecipeList = new ArrayList();
 	String name;
 	public Recipes(String n,Configuration config) {
 		name = n;
@@ -28,7 +28,24 @@ public class Recipes {
 		a.cost = con.getInt("COST["+id+"]", "STONE"+name, c, -99999, 99999, "");
 		a.input = con.getString("INPUT["+id+"]", "STONE"+name, i,  "");
 		a.output = con.getString("OUTPUT["+id+"]", "STONE"+name, o,  "");
+		RecipeList.add(a);
 	}
+	
+	public AlchemicalRecipe findInput(String i,int mode)
+	{
+		
+		for (AlchemicalRecipe t : RecipeList)
+		{
+			//System.out.println("Input : "+t.getInput());
+			//System.out.println("Mode : "+t.getType());
+			if ((t.getInput().equals(i)) && (t.getType()==mode))
+			{
+				return t;
+			}
+		}
+		return null;
+	}
+	
 	
 	//returns true if successful, false if no reciepes found in configs.
 	//each stone's subclass overrides this function
