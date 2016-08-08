@@ -5,12 +5,20 @@ import java.io.File;
 import com.workshopcraft.alchemicraft.items.ItemStoneDeep;
 import com.workshopcraft.alchemicraft.items.ItemStoneWild;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 @Mod(modid = Alchemicraft.MODID, version = Alchemicraft.VERSION)
 public class Alchemicraft
@@ -74,9 +82,37 @@ public class Alchemicraft
         if (event.getSide()==Side.CLIENT)
         {
         	//fix this add getName()
-        	//RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        	//renderItem.getItemModelMesher().register(STONEWILD, 0, new ModelResourceLocation(Alchemicraft.MODID + ":" + ( STONEWILD).getName(),"inventory"));
+        	RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+        	renderItem.getItemModelMesher().register(STONEWILD, 0, new ModelResourceLocation(Alchemicraft.MODID + ":stonewild","inventory"));
+        	renderItem.getItemModelMesher().register(STONEDEEP, 0, new ModelResourceLocation(Alchemicraft.MODID + ":stonedeep","inventory"));
             
         }
+        GameRegistry.addRecipe(new ShapedOreRecipe(STONEWILD, new Object[]{
+        		"DMD",
+        		"WEW",
+        		"DMD",
+        		'D',Blocks.DIRT,'M',Blocks.MELON_BLOCK,'W',Items.WHEAT,'E',Items.ENDER_PEARL
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(STONEDEEP, new Object[]{
+        		"SIS",
+        		"GEG",
+        		"SIS",
+        		'S',Blocks.STONE,'I',Blocks.IRON_ORE,'G',Blocks.GOLD_ORE,'E',Items.ENDER_PEARL
+        }));
+        
+    }
+    
+    @EventHandler
+    public void serverLoad(FMLServerStartingEvent event)
+    {
+    	/*
+    	CommandController alchemicommand = new CommandController();
+    	if (alchemicommand!=null)
+    	{
+    		event.registerServerCommand(alchemicommand);
+    	} else
+    	{
+    		System.out.println("Didnt create command object");
+    	}*/
     }
 }

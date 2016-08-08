@@ -28,8 +28,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemStone extends Item{
 	
 	private String name = "";
-	int ether;
-	int mode;
+	//int ether;
+	//int mode;
 	public Recipes RECIPES;
 	
 	public ItemStone (String uname)
@@ -39,8 +39,8 @@ public class ItemStone extends Item{
 		setUnlocalizedName(name);
 		this.setRegistryName(Alchemicraft.MODID+":"+name);
 		GameRegistry.register(this);
-		ether = 0;
-		mode = 0;
+		//ether = 0;
+		//mode = 0;
 		
 		
 		setMaxStackSize(1);
@@ -61,8 +61,9 @@ public class ItemStone extends Item{
 		}
 		else
 		{
-			ether = stack.getTagCompound().getInteger("ether");
-			mode = stack.getTagCompound().getInteger("mode");
+				//ether = stack.getTagCompound().getInteger("ether");
+				//mode = stack.getTagCompound().getInteger("mode");
+			
 		}
 		
 	}
@@ -75,28 +76,34 @@ public class ItemStone extends Item{
 		if (!worldIn.isRemote)
 		{
 			
-			System.out.println(RECIPES.getClass().getName());
+			/*
+			  System.out.println(RECIPES.getClass().getName());
+			 
 			Iterator<AlchemicalRecipe> recipeIterator = RECIPES.RecipeList.iterator();
 			AlchemicalRecipe a;
 			while (recipeIterator.hasNext()) {
 				a = recipeIterator.next();
 				System.out.println(a.getInput());
 			}
+			*/
 			
-			//System.out.println(RECIPES.RecipeList.);
 			if (playerIn.isSneaking())
 			{
+				
 				//set stone to opposite mode
-				if (mode == 0)
+				if (getMode(stack) == 0)
 				{
-					mode = 1;
+					//mode = 1;
 					System.out.println("Mode Change : Emit");
+					setMode(stack,1);
 					return EnumActionResult.SUCCESS;
 				} else
 				{
-					mode = 0;
+					//mode = 0;
 					System.out.println("Mode Change : Absorb");
+					setMode(stack,0);
 					return EnumActionResult.SUCCESS;
+					
 				}
 			}
 			RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
@@ -112,8 +119,8 @@ public class ItemStone extends Item{
 	        	String targetName = "";
 	        	ResourceLocation r = worldIn.getBlockState(blockpos).getBlock().getRegistryName();
 	        	targetName = r.getResourceDomain()+":"+r.getResourcePath();
-				AlchemicalRecipe t = RECIPES.findInput(targetName,mode);
-				System.out.println("Target : "+targetName);
+				AlchemicalRecipe t = RECIPES.findInput(targetName,getMode(stack));
+				//System.out.println("Target : "+targetName);
 						
 				if (t== null)
 				{
@@ -121,12 +128,15 @@ public class ItemStone extends Item{
 					return EnumActionResult.FAIL;
 				}
 				//System.out.println("Recipe Found");
-				System.out.println("ERMAHGERD : "+t.getCost());
-				if (t.getCost()+ether>0)
+				//System.out.println("ERMAHGERD : "+t.getCost());
+				if (t.getCost()+getEther(stack)>0)
 				{
 					worldIn.setBlockState(blockpos, Block.getBlockFromName(t.getOutput()).getDefaultState());
-					ether += t.getCost();
-					System.out.println("Ether : "+ether);
+					setEther(stack,getEther(stack)+t.getCost());
+					//ether += t.getCost();
+					//setEther(stack,ether);
+	            	//setMode(stack,mode);
+					//System.out.println("Ether : "+ether);
 				}
 				//worldIn.mark
 				return EnumActionResult.SUCCESS;
@@ -138,19 +148,20 @@ public class ItemStone extends Item{
 	        	String targetName = "";
 	        	ResourceLocation r = worldIn.getBlockState(blockpos).getBlock().getRegistryName();
 	        	targetName = r.getResourceDomain()+":"+r.getResourcePath();
-	            AlchemicalRecipe t = RECIPES.findInput(targetName, mode);
-	            System.out.println("Target : "+targetName);
+	            AlchemicalRecipe t = RECIPES.findInput(targetName, getMode(stack));
+	            //System.out.println("Target : "+targetName);
 	            if (t==null)
 	            {
 	            	return EnumActionResult.FAIL;
 	            }
-	            if (t.getCost()+ether>0)
+	            if (t.getCost()+getEther(stack)>0)
 	            {
 	            	worldIn.setBlockState(blockpos, Block.getBlockFromName(t.getOutput()).getDefaultState());
-	            	ether += t.getCost();
-	            	System.out.println("Ether : "+ether);
-	            	setEther(stack,ether);
-	            	setMode(stack,mode);
+	            	setEther(stack,getEther(stack)+t.getCost());
+	            	//ether += t.getCost();
+	            	//System.out.println("Ether : "+ether);
+	            	//setEther(stack,ether);
+	            	//setMode(stack,mode);
 	            }
 	            return EnumActionResult.SUCCESS;
 	        }
@@ -180,6 +191,34 @@ public class ItemStone extends Item{
 		
 	}
 	
+	public int getEther(ItemStack s)
+	{
+		if (s.getTagCompound() == null)
+		{
+			setEther(s,0);
+			return 0;
+		}
+		else
+		{
+			return s.getTagCompound().getInteger("ether");		
+		}
+		
+	}
+	
+	public int getMode(ItemStack s)
+	{
+		if (s.getTagCompound() == null)
+		{
+			setMode(s,0);
+			return 0;
+		}
+		else
+		{
+			return s.getTagCompound().getInteger("mode");		
+		}
+		
+	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
@@ -188,12 +227,12 @@ public class ItemStone extends Item{
         if (stack.hasTagCompound())
         {
             NBTTagCompound nbttagcompound = stack.getTagCompound();
-            int s = nbttagcompound.getInteger("ether");
+            int s = getEther(stack);
 
             
             tooltip.add(TextFormatting.BLUE + "Ether  :" + s);
             
-            if (mode == 0)
+            if (getMode(stack) == 0)
             {
             	tooltip.add(TextFormatting.RED + "MODE : ABSORB");
             } else

@@ -1,0 +1,19 @@
+{
+    "parent":"builtin/generated",
+    "textures": {
+        "layer0":"alchemicraft:items/stonedeep"
+    
+    },
+    "display": {
+        "thirdperson": {
+            "rotation": [ -90, 0, 0 ],
+            "translation": [ 0, 1, -3 ],
+            "scale": [ 0.2, 0.2, 0.2 ]
+        },
+        "firstperson": {
+            "rotation": [ 0, -90, 25 ],
+            "translation": [ 0, 4, 2 ],
+            "scale": [ 0.55, 0.55, 0.55 ]
+        }
+    }
+}

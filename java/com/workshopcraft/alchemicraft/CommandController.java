@@ -42,6 +42,7 @@ public class CommandController implements ICommand {
 
 	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+		Alchemicraft.CONFIGFILE.delete();
 		Configuration config = new Configuration(Alchemicraft.CONFIGFILE);
 		config.load();
 		Alchemicraft.STONEWILD.RECIPES.RecipeList.clear();
